@@ -1,5 +1,5 @@
 import React from 'react';
-import Pagination from '../ui/pagination/intex';
+import Pagination from './pagination/intex';
 
 import { ContainerFooter } from './styles';
 

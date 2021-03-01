@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ArrowLeft from "../icons/arrowLeft";
+import ArrowLeft from "../../ui/icons/arrowLeft";
 
 export const Container = styled.div`
     display: flex;

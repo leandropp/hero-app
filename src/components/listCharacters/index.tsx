@@ -6,8 +6,7 @@ import { BodyList, HeaderList, HeadPrimary, HeadSecundary } from './styles';
 
 
 const ListCharacters: React.FC = () => {
-  const { state } = useCharacters();
-  const { characters } = state;
+  const { characters } = useCharacters();
 
   return (
     <>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ContainerFooter = styled.div`
     background-color: #FFFFFF;
 
-    padding-top: 24px;
+    padding: 24px 0;
 
     display: flex;
     justify-content: center;

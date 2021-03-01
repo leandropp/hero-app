@@ -31,7 +31,7 @@ async function getAuth () {
 
 
 
-export const getCharacters = async (searchParams: ISearchParams ):Promise<IBaseResponseMarvel<ICharacterDataContainer>> => {
+export const getCharactersMarvel = async (searchParams: ISearchParams ):Promise<IBaseResponseMarvel<ICharacterDataContainer>> => {
     const url = 'characters';
 
     const { limit, offset } = searchParams;

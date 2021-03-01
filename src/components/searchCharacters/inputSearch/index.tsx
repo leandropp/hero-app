@@ -7,12 +7,13 @@ import { ContainerInput, Input, GridIcon } from './styles';
 
 const InputSearch: React.FC = () => {
 
-  const [value, setValue] = React.useState('');
+  const [valueInputSearch, setValueInputSearch] = React.useState('');
+
   return (
         <ContainerInput>
             <Input
-                value={value}
-                onChange={ (e) => { setValue(e.target.value) }}
+                value={valueInputSearch}
+                onChange={ (e) => { setValueInputSearch(e.target.value) }}
                 placeholder='Search'
             />
             <GridIcon>

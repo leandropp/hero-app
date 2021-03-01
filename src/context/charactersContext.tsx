@@ -1,19 +1,9 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
 
-import { characterReducer } from '../reducers/characterReducer';
-import { getCharacters } from '../services/marvelApi/marvinApi';
-import { ISearchParams } from '../services/marvelApi/types';
-import { ICharacterContext, ICharacterState, ICharacterProps } from './types';
+import { getCharactersMarvel } from '../services/marvelApi/marvinApi';
+import { ICharacter, ISearchParams } from '../services/marvelApi/types';
+import { ICharacterContext, ICharacterProps, IPagination } from './types';
 
-
-const initialState: ICharacterState = {
-  characters: [],
-  pagination: {
-    maxPage: 0,
-    pages: 0,
-    selectedPage: null,
-  }
-} 
 
 export const CharacterStore = createContext<ICharacterContext>({} as ICharacterContext);
 
@@ -22,44 +12,64 @@ const { Provider } = CharacterStore;
 export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX.Element => {
 
 
-  const [state, dispatch] = useReducer(characterReducer, initialState);
+  const initialPagination: IPagination = {
+    currentPage: 0,
+    offset: 0,
+    limit: 4,
+    totalPages: 0,
+    Pages: [],
+  }
+
+  const [characters, setCharacters] = useState<Array<ICharacter>>([]);
+  const [pagination, setPagination] = useState<IPagination>(initialPagination);
 
 
-  useEffect(() => {
-
+  const getCharacters = (page: number = 0) => {
     const request: ISearchParams = {
       limit: 4,
-      offset: 0,
+      offset: page,
     };
 
-    getCharacters(request).then((response) => {
+    getCharactersMarvel(request).then((response) => {
       const { data } = response;
       if (!data) return;
       
-      const { results: resultados } = data;
-      const newCharacters = resultados;
-      dispatch({ type: 'UPDATE_CHARACTERS', payload: newCharacters }) 
-  })
-  .catch(() => {
-      return state;
-  })
+      const { results, offset, limit, total } = data;
+      const newCharacters = results;
+      const newPagination:IPagination = {
+        ...pagination,
+        offset,
+        limit,
+        totalPages: total,
+      }
 
+      setCharacters(newCharacters);
+      setPagination(newPagination);
+  })
+  .catch(() => { })
+
+  }
+
+
+  useEffect(() => {
+    getCharacters();
   }, []);
+
+
+  const updatePage = (page: number) => {
+    getCharacters(page);
+    setPagination({ ...pagination, currentPage: page });
+  }
   
-/*
 
-  const [state, dispatch] = useReducer<ICharacterContextState>(reducer, initialValues);
-  dispatch({ type: 'SELECTED', payload: ''})
 
-  const page = 3
-  const limit = 4
-  const offset = (page - 1)  * limit;
-  const pagination: ISearchParams = { limit, offset };
 
-  getCharacters(pagination).then( (result: any) => console.log({result}));
-*/
+  return (<Provider value={{
+    characters,
+    pagination,
 
-  return (<Provider value={{ state, dispatch }}>{ children }</Provider>);
+    updatePage,
+  }}>{ children }</Provider>);
 }
 
 export const useCharacters = (): ICharacterContext => useContext(CharacterStore);
