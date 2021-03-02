@@ -10,6 +10,7 @@ export interface ICharacterContext {
     pagination: IPagination;
 
     updatePage(page: number): void;
+    searchCharactersByName(search: ISearchMarvel): void;
 }
 
 export interface IPagination {
@@ -18,4 +19,9 @@ export interface IPagination {
     offset: number;
     limit: number;
     Pages: Array<number>;
+}
+
+export interface ISearchMarvel {
+    page?: number;
+    searchName?: string;
 }

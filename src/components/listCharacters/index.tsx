@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCharacters } from '../../context/charactersContext';
+import { ICharacter, IImagem, IList } from '../../services/marvelApi/types';
 import CardCharacter from './cardCharacter';
 
 import { BodyList, HeaderList, HeadPrimary, HeadSecundary } from './styles';

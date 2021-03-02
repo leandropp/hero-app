@@ -7,6 +7,13 @@ export const ContainerSearch = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    @media screen and (max-width: 768px){
+        width: 100%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
 `;
 
 export const Title = styled.p`
@@ -17,6 +24,11 @@ export const Title = styled.p`
     color: #555555;
 
     text-align: left;
+
+    @media screen and (max-width: 768px){
+        padding: 24px 0;
+    }
+
 `;
 
 export const LabelInput = styled.p`

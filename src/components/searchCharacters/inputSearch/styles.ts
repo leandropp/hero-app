@@ -7,6 +7,11 @@ export const ContainerInput = styled.div`
 
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: 768px){
+        width: 100%;
+        padding: 0;
+    }
 `;
 
 

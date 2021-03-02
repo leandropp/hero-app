@@ -11,6 +11,7 @@ export interface IBaseResponseMarvel<TResponse> {
 export interface ISearchParams {
     offset: number;
     limit: number;
+    nameStartsWith?: string;
 }
 
 export interface ICharacterDataContainer {

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { getCharactersMarvel } from '../services/marvelApi/marvinApi';
 import { ICharacter, ISearchParams } from '../services/marvelApi/types';
-import { ICharacterContext, ICharacterProps, IPagination } from './types';
+import { ICharacterContext, ICharacterProps, IPagination, ISearchMarvel } from './types';
 
 
 export const CharacterStore = createContext<ICharacterContext>({} as ICharacterContext);
@@ -24,13 +24,15 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   const [pagination, setPagination] = useState<IPagination>(initialPagination);
 
 
-  const getCharacters = (page?: number) => {
+  const getCharacters = (searchParams: ISearchMarvel) => {
+    const { page, searchName } = searchParams;
 
     const offset = page ? (page * 4) - 4 : 0;
 
     const request: ISearchParams = {
       limit: 4,
       offset,
+      // nameStartsWith: searchName,
     };
 
     getCharactersMarvel(request).then((response) => {
@@ -54,9 +56,12 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   }
 
-  useEffect(() => getCharacters(), []);
+  useEffect(() => getCharacters({}), []);
 
-  const updatePage = (page: number) => getCharacters(page);
+  const updatePage = (page: number) => getCharacters({ page });
+
+  const searchCharactersByName = 
+    (search: ISearchMarvel)=> getCharacters({ searchName: search.searchName });
   
 
   return (<Provider value={{
@@ -64,6 +69,7 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
     pagination,
 
     updatePage,
+    searchCharactersByName,
   }}>{ children }</Provider>);
 }
 

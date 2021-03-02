@@ -10,16 +10,18 @@ import {
     GridUser,
     User,
     TextToolbar,
-    Avatar
+    Avatar,
+    GridResponsiveText
 } from './styles';
 
 const Toolbar: React.FC<IToolbarProps> = ({ user}) => (
     <ContainerToolbar>
-        {/* <Logo src="../../../assets/logo.png" /> */}
         <Logo src={logo}/>
         <GridUser>
-            <User>{user}</User>
-            <TextToolbar>Teste de Front-end</TextToolbar>
+            <GridResponsiveText>
+                <User>{user}</User>
+                <TextToolbar>Teste de Front-end</TextToolbar>
+            </GridResponsiveText>
             <Avatar /> 
         </GridUser>
     </ContainerToolbar>
