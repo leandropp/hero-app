@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { getCharactersMarvel } from '../services/marvelApi/marvinApi';
 import { ICharacter, ISearchParams } from '../services/marvelApi/types';
@@ -24,10 +24,13 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   const [pagination, setPagination] = useState<IPagination>(initialPagination);
 
 
-  const getCharacters = (page: number = 0) => {
+  const getCharacters = (page?: number) => {
+
+    const offset = page ? (page * 4) - 4 : 0;
+
     const request: ISearchParams = {
       limit: 4,
-      offset: page,
+      offset,
     };
 
     getCharactersMarvel(request).then((response) => {
@@ -40,7 +43,8 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
         ...pagination,
         offset,
         limit,
-        totalPages: total,
+        totalPages: total + 1,
+        currentPage: page || 1,
       }
 
       setCharacters(newCharacters);
@@ -50,19 +54,10 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   }
 
+  useEffect(() => getCharacters(), []);
 
-  useEffect(() => {
-    getCharacters();
-  }, []);
-
-
-  const updatePage = (page: number) => {
-    getCharacters(page);
-    setPagination({ ...pagination, currentPage: page });
-  }
+  const updatePage = (page: number) => getCharacters(page);
   
-
-
 
   return (<Provider value={{
     characters,

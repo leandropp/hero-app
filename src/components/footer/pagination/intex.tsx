@@ -1,9 +1,8 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useCharacters } from '../../../context/charactersContext';
-import ArrowRight from '../../ui/icons/arrowRight';
 
-import { Arrow, ArrowFirst, ArrowLast, Container, ContainerArrow, Page } from './styles';
+import { Arrow, ArrowBack, ArrowBackContainer, ArrowGoContainer, ArrowNext, Container, ContainerArrow, Page } from './styles';
 
 
 const Pagination: React.FC = () => {
@@ -15,54 +14,94 @@ const Pagination: React.FC = () => {
     const [showFirst, setShowFirst] = useState<boolean>(false);
     const [showGo, setShowGo] = useState<boolean>(true);
     const [showLast, setShowLast] = useState<boolean>(true);
+    const [rangePages, setRangePages] = useState<Array<number>>([]);
 
     const onClickPage = (page: number) => updatePage(page);
 
+    const handleBack = () => updatePage(currentPage - 1);
+
+    const handleFirst = () => updatePage(1);
+
+    const handleGo = () => updatePage(currentPage + 1);
+
+    const handleLast = () => updatePage(totalPages/4);
+
+    const updateRangePages = () => {
+        const pages = new Array();
+
+        const pageInitial = (rangePages[rangePages.length - 1] < currentPage)
+            ? currentPage - 4
+            : currentPage;
+        
+        for(let i=0; i < 5; i++) pages.push(Math.trunc(pageInitial + i));
+
+        setRangePages(pages)            
+    }
+
     const handleChangePagination = () => {
         setShowBack(currentPage > 1);
-        setShowFirst(currentPage > 2);
+        setShowFirst(currentPage > 1);
         setShowGo(currentPage < totalPages);
         setShowLast(currentPage < (totalPages -1));
 
+
+        if (!rangePages.includes(currentPage)) {
+            console.log({rangePages, currentPage });
+            updateRangePages();
+        }
     };
+
 
     useEffect( handleChangePagination,[currentPage]);
 
-
-
-    const renderIconPages = () => {
+    useEffect( () => {
         let pages = new Array();
         const pageInitial = offset + 1;
         for(let i=0; i < 5; i++) {
             pages.push(pageInitial + i);
         }
+        
+        setRangePages([...pages])
 
-        return pages.map( pg => <Page
+    }, [])
+
+
+    const renderIconPages = () => rangePages
+        .map( pg => <Page
             key={String(pg)}
-            isSelected={pg === currentPage}
+            isSelected={pg === Math.trunc(currentPage)}
             onClick={ e => onClickPage(pg)}
-            >{pg}</Page>)
-    }
+            >{pg}</Page>);
     
     return (
       <Container>
             <ContainerArrow>
                 { showFirst && (
-                    <Arrow>
-                    <ArrowFirst />
-                    <ArrowFirst />
-                </Arrow>
+                    <Arrow onClick={handleFirst}>
+                        <ArrowBack />
+                        <ArrowBack />
+                    </Arrow>
                 )}
-                { showBack && <ArrowFirst /> }
+                { showBack && (
+                    <ArrowBackContainer onClick={handleBack}>
+                        <ArrowBack />
+                    </ArrowBackContainer>
+                )}
             </ContainerArrow>
                 { renderIconPages() }
             <ContainerArrow>
-                { showGo && <ArrowRight /> }
+                { showGo && (
+                    <ArrowGoContainer onClick={handleGo} >
+                        <ArrowNext/>
+                    </ArrowGoContainer>
+                )}  
                 { showLast && (
-                    <ArrowLast>
-                    <ArrowRight />
-                    <ArrowRight />
-                </ArrowLast>
+                    <Arrow
+                        onClick={handleLast}
+                    >
+                        <ArrowNext />
+                        <ArrowNext />
+                    </Arrow>
                 )}
             </ContainerArrow>
       </Container>

@@ -37,7 +37,6 @@ export const Column = styled.div`
     align-items: flex-start;
 
     height: 56px;
-    overflow-y: auto;
 
 `;
 

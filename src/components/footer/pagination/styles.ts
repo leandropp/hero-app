@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import ArrowLeft from "../../ui/icons/arrowLeft";
+import ArrowRight from "../../ui/icons/arrowRight";
 
 export const Container = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
 `;
 
 export const ContainerArrow = styled.div`
@@ -26,29 +26,17 @@ export const Arrow = styled.div`
     align-items: center;
 
     padding: 8px;
-    cursor: pointer;
-
 `;
 
-export const ArrowFirst = styled(ArrowLeft)`
-    svg {
-        fill: #8E8E8E;
-    }
-
-    svg:hover {
-        fill: #167ABC;
-        fill: #167ABD;
-    }
+export const ArrowBackContainer = styled.div`
 `;
 
-export const ArrowLast = styled.div`
-    width: 24px;
-
-    display: flex;
-    align-items: center;
-
-    padding: 8px;
+export const ArrowGoContainer = styled.div`
 `;
+
+export const ArrowBack = styled(ArrowLeft)``;
+
+export const ArrowNext = styled(ArrowRight)``;
 
 export interface IPageProps {
     isSelected?: boolean;
