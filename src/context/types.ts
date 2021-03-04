@@ -8,9 +8,11 @@ export interface ICharacterProps {
 export interface ICharacterContext {
     characters: Array<ICharacter>;
     pagination: IPagination;
+    searchName: string;
 
     updatePage(page: number): void;
     searchCharactersByName(search: ISearchMarvel): void;
+    handleChangeSearchName(name: string): void;
 }
 
 export interface IPagination {

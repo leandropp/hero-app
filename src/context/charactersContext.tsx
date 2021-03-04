@@ -22,7 +22,7 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   const [characters, setCharacters] = useState<Array<ICharacter>>([]);
   const [pagination, setPagination] = useState<IPagination>(initialPagination);
-
+  const [searchName, setSearchName] = useState<string>('');
 
   const getCharacters = (searchParams: ISearchMarvel) => {
     const { page, searchName } = searchParams;
@@ -32,7 +32,7 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
     const request: ISearchParams = {
       limit: 4,
       offset,
-      // nameStartsWith: searchName,
+      nameStartsWith: searchName,
     };
 
     getCharactersMarvel(request).then((response) => {
@@ -62,14 +62,18 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   const searchCharactersByName = 
     (search: ISearchMarvel)=> getCharacters({ searchName: search.searchName });
+
+  const handleChangeSearchName = (name: string) => setSearchName(name);
   
 
   return (<Provider value={{
     characters,
     pagination,
+    searchName,
 
     updatePage,
     searchCharactersByName,
+    handleChangeSearchName,
   }}>{ children }</Provider>);
 }
 

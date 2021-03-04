@@ -27,7 +27,7 @@ const Pagination: React.FC = () => {
     const handleLast = () => updatePage(totalPages/4);
 
     const updateRangePages = () => {
-        const pages = new Array();
+        const pages = [];
 
         const pageInitial = (rangePages[rangePages.length - 1] < currentPage)
             ? currentPage - 4
@@ -51,8 +51,7 @@ const Pagination: React.FC = () => {
         }
     };
 
-
-    useEffect( handleChangePagination,[currentPage]);
+    useEffect(handleChangePagination, [currentPage]);
 
     useEffect( () => {
         let pages = new Array();
@@ -62,7 +61,6 @@ const Pagination: React.FC = () => {
         }
         
         setRangePages([...pages])
-
     }, [])
 
 

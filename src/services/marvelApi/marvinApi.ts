@@ -34,11 +34,13 @@ async function getAuth () {
 export const getCharactersMarvel = async (searchParams: ISearchParams ):Promise<IBaseResponseMarvel<ICharacterDataContainer>> => {
     const url = 'characters';
 
-    const { limit, offset } = searchParams;
-    const params = `?limit=${limit}&offset=${offset}`
+    const { limit, offset, nameStartsWith } = searchParams;
 
+    console.log({ searchParams });
+    
+    let params = `?limit=${limit}&offset=${offset}`;
+
+    if(!!nameStartsWith) params += `&nameStartsWith=${nameStartsWith}`;
 
     return fetchMarvel(url + params, true);
-
-
 }
