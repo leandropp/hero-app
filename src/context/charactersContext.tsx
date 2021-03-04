@@ -25,14 +25,16 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   const [searchName, setSearchName] = useState<string>('');
 
   const getCharacters = (searchParams: ISearchMarvel) => {
-    const { page, searchName } = searchParams;
+    const { page, name } = searchParams;
+
+    console.log('getCharacters ===========', page, searchName);
 
     const offset = page ? (page * 4) - 4 : 0;
 
     const request: ISearchParams = {
       limit: 4,
       offset,
-      nameStartsWith: searchName,
+      nameStartsWith: name,
     };
 
     getCharactersMarvel(request).then((response) => {
@@ -50,7 +52,7 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
       }
 
       setCharacters(newCharacters);
-      setPagination(newPagination);
+      setPagination({...newPagination});
   })
   .catch(() => { })
 
@@ -60,8 +62,13 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   const updatePage = (page: number) => getCharacters({ page });
 
-  const searchCharactersByName = 
-    (search: ISearchMarvel)=> getCharacters({ searchName: search.searchName });
+  const searchCharactersByName = (search: ISearchMarvel) => {
+    const { page, name } = search;
+    
+    setSearchName(name || '');
+
+      getCharacters({ page, name });
+  };
 
   const handleChangeSearchName = (name: string) => setSearchName(name);
   

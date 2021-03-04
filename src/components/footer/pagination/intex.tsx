@@ -29,11 +29,18 @@ const Pagination: React.FC = () => {
     const updateRangePages = () => {
         const pages = [];
 
+        const lastPage = Math.trunc(totalPages/4);
+
         const pageInitial = (rangePages[rangePages.length - 1] < currentPage)
             ? currentPage - 4
             : currentPage;
         
-        for(let i=0; i < 5; i++) pages.push(Math.trunc(pageInitial + i));
+        if (lastPage < 5 ) {
+
+            for(let i=0; i < lastPage; i++) pages.push(Math.trunc(pageInitial + i));
+        } else {
+            for(let i=0; i < 5; i++) pages.push(Math.trunc(pageInitial + i));
+        }
 
         setRangePages(pages)            
     }
@@ -46,22 +53,12 @@ const Pagination: React.FC = () => {
 
 
         if (!rangePages.includes(currentPage)) {
-            console.log({rangePages, currentPage });
             updateRangePages();
         }
     };
 
     useEffect(handleChangePagination, [currentPage]);
-
-    useEffect( () => {
-        let pages = new Array();
-        const pageInitial = offset + 1;
-        for(let i=0; i < 5; i++) {
-            pages.push(pageInitial + i);
-        }
-        
-        setRangePages([...pages])
-    }, [])
+    useEffect(updateRangePages, [pagination])
 
 
     const renderIconPages = () => rangePages

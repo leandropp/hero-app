@@ -18,7 +18,7 @@ const InputSearch: React.FC = () => {
                 onChange={ (e) => { setValueInputSearch(e.target.value) }}
                 placeholder='Search'
             />
-            <GridIcon onClick={ _ => searchCharactersByName({ searchName: valueInputSearch})}>
+            <GridIcon onClick={ _ => searchCharactersByName({ name: valueInputSearch})}>
               <SearchIcon />
             </GridIcon>
         </ContainerInput>

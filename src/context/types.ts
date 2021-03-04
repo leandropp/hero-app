@@ -25,5 +25,5 @@ export interface IPagination {
 
 export interface ISearchMarvel {
     page?: number;
-    searchName?: string;
+    name?: string;
 }
