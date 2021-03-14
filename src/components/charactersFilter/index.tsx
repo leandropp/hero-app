@@ -9,7 +9,8 @@ const CharactersFilter: React.FC<ICharactersFilter> = (props) => {
   
   return (
     <>
-    { showCharactersFilters && props.children }
+    {/* { showCharactersFilters && props.children } */}
+    { props.children }
     </>
   );
 }

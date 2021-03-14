@@ -6,10 +6,10 @@ import { Avatar, ColumnMain, Column, Container, TextDescription, TextName } from
 import { ICardCharacterProps } from './types';
 
 const CardCharacter: React.FC<ICardCharacterProps> = ({ character }) => {
-  const { name, series, events, thumbnail } = character;
+  const { name, series, events, thumbnail, id } = character;
   const { path, extension } = thumbnail;
 
-  const { handleShowModalDetails } = useCharacters();
+  const { handleDetailsCharacter } = useCharacters();
 
 
   const renderInfos = (list: IList) => {
@@ -23,8 +23,8 @@ const CardCharacter: React.FC<ICardCharacterProps> = ({ character }) => {
   const handleCardClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();
     event.stopPropagation();
-    
-    handleShowModalDetails(true);
+
+    handleDetailsCharacter(id);
   }
 
   return (

@@ -7,6 +7,8 @@ export interface ICharacterProps {
 
 export interface ICharacterContext {
     characters: Array<ICharacter>;
+    characterSelected: ICharacter | null;
+    
     pagination: IPagination;
     searchName: string;
     showModalDetails: boolean;
@@ -15,7 +17,7 @@ export interface ICharacterContext {
     updatePage(page: number): void;
     searchCharactersByName(search: ISearchMarvel): void;
     handleChangeSearchName(name: string): void;
-    handleShowModalDetails(show: boolean): void;
+    handleDetailsCharacter(characterId?: number): void;
 }
 
 export interface IPagination {

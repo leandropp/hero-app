@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { getCharactersMarvel } from '../services/marvelApi/marvinApi';
+import { getCharacterById, getCharactersMarvel } from '../services/marvelApi/marvinApi';
 import { ICharacter, ISearchParams } from '../services/marvelApi/types';
 import { ICharacterContext, ICharacterProps, IPagination, ISearchMarvel } from './types';
 
@@ -21,15 +21,16 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   }
 
   const [characters, setCharacters] = useState<Array<ICharacter>>([]);
+  const [characterSelected, setCharacterSelected] = useState<ICharacter | null>(null);
+
   const [pagination, setPagination] = useState<IPagination>(initialPagination);
   const [searchName, setSearchName] = useState<string>('');
+  
   const [showModalDetails, setShowModalDetails] = useState<boolean>(false);
   const [showCharactersFilters, setShowCharactersFilters] = useState<boolean>(false);
 
   const getCharacters = (searchParams: ISearchMarvel) => {
     const { page, name } = searchParams;
-
-    console.log('getCharacters ===========', page, searchName);
 
     const offset = page ? (page * 4) - 4 : 0;
 
@@ -76,7 +77,27 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   const handleChangeSearchName = (name: string) => setSearchName(name);
   
-  const handleShowModalDetails = (show: boolean) => setShowModalDetails(show);
+  const handleDetailsCharacter = (characterId: number) => {
+    if (characterId) {
+      const filteredCharacter = characters.find( ch => ch.id === characterId);
+      setCharacterSelected(filteredCharacter || null);
+    }
+    setShowModalDetails(!!characterId);
+  } 
+
+  const getDetailsCharacter = async () => {
+    if (!characterSelected) return null;
+    try {
+      const response = await getCharacterById(characterSelected.id);
+
+      if (!response) return null;
+
+      return response.data;
+
+    } catch {
+      return null;
+    }
+  }
 
   return (<Provider value={{
     characters,
@@ -84,11 +105,12 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
     searchName,
     showModalDetails,
     showCharactersFilters,
+    characterSelected,
 
     updatePage,
     searchCharactersByName,
     handleChangeSearchName,
-    handleShowModalDetails,
+    handleDetailsCharacter,
   }}>{ children }</Provider>);
 }
 
