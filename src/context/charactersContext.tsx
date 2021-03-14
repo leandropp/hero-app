@@ -23,6 +23,8 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   const [characters, setCharacters] = useState<Array<ICharacter>>([]);
   const [pagination, setPagination] = useState<IPagination>(initialPagination);
   const [searchName, setSearchName] = useState<string>('');
+  const [showModalDetails, setShowModalDetails] = useState<boolean>(false);
+  const [showCharactersFilters, setShowCharactersFilters] = useState<boolean>(false);
 
   const getCharacters = (searchParams: ISearchMarvel) => {
     const { page, name } = searchParams;
@@ -60,6 +62,8 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   useEffect(() => getCharacters({}), []);
 
+  useEffect(() => setShowCharactersFilters(!showModalDetails), [ showModalDetails ]);
+
   const updatePage = (page: number) => getCharacters({ page });
 
   const searchCharactersByName = (search: ISearchMarvel) => {
@@ -72,15 +76,19 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
 
   const handleChangeSearchName = (name: string) => setSearchName(name);
   
+  const handleShowModalDetails = (show: boolean) => setShowModalDetails(show);
 
   return (<Provider value={{
     characters,
     pagination,
     searchName,
+    showModalDetails,
+    showCharactersFilters,
 
     updatePage,
     searchCharactersByName,
     handleChangeSearchName,
+    handleShowModalDetails,
   }}>{ children }</Provider>);
 }
 

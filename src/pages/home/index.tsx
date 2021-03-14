@@ -7,6 +7,8 @@ import ListCharacters from '../../components/listCharacters';
 
 import { Body } from './styles';
 import { CharactersProvider } from '../../context/charactersContext';
+import Details from '../../components/details';
+import CharactersFilter from '../../components/charactersFilter';
 
 const Home: React.FC = () => {
     const user = 'Leandro Pereira da Paixão';
@@ -16,11 +18,15 @@ const Home: React.FC = () => {
         <Toolbar user={user}/>
 
         <CharactersProvider>
-            <Body>
-                <SearchCharacters />
-                <ListCharacters />
-            </Body>
-            <Footer />
+            <CharactersFilter>
+                <Body>
+                    <SearchCharacters />
+                    <ListCharacters />
+                </Body>
+                <Footer />
+            </CharactersFilter>
+
+            <Details />
         </CharactersProvider>
 
     </>

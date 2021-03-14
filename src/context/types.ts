@@ -9,10 +9,13 @@ export interface ICharacterContext {
     characters: Array<ICharacter>;
     pagination: IPagination;
     searchName: string;
+    showModalDetails: boolean;
+    showCharactersFilters: boolean;
 
     updatePage(page: number): void;
     searchCharactersByName(search: ISearchMarvel): void;
     handleChangeSearchName(name: string): void;
+    handleShowModalDetails(show: boolean): void;
 }
 
 export interface IPagination {

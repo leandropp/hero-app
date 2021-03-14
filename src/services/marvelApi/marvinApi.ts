@@ -22,14 +22,11 @@ async function fetchMarvel (url: string, isParams: boolean = false):Promise<any>
 
 async function getAuth () {
     const ts = Date.now();
-    const keyPublic = '';
-    const keyPrivate = '';
+    const keyPublic = 'd3e18b0552017cc1fab3133788553861';
+    const keyPrivate = 'b6dc9444b1e5adf925c65d8eae59e9f0d4fd0207';
     const hash = md5(ts + keyPrivate + keyPublic);
     return `ts=${ts}&apikey=${keyPublic}&hash=${hash}`;
 }
-
-
-
 
 export const getCharactersMarvel = async (searchParams: ISearchParams ):Promise<IBaseResponseMarvel<ICharacterDataContainer>> => {
     const url = 'characters';
