@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IList } from '../../../services/marvelApi/types';
 import { Body, CardContainer, Item, TextName, Title } from './styles';
-
-// import { Container } from './styles';
 
 export interface ICardComicsProps {
   list: IList;

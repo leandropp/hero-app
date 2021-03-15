@@ -8,7 +8,7 @@ import { Arrow, ArrowBack, ArrowBackContainer, ArrowGoContainer, ArrowNext, Cont
 const Pagination: React.FC = () => {
 
     const { pagination, updatePage } = useCharacters();
-    const { offset, currentPage, totalPages } = pagination;
+    const { currentPage, totalPages } = pagination;
 
     const [showBack, setShowBack] = useState<boolean>(false);
     const [showFirst, setShowFirst] = useState<boolean>(false);

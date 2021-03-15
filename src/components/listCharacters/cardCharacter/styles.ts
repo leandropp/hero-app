@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { TextDefault } from "../../../common/fonts";
 
 export const Container = styled.div`
     background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -25,6 +26,10 @@ export const ColumnMain = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 export const Column = styled.div`
@@ -50,15 +55,11 @@ export const Avatar = styled.img`
     border-radius: 4px;
 `;
 
-export const TextName = styled.span`
-    font: normal normal bold 16px/22px PT Sans;
-    color: #555555;
-
+export const TextName = styled(TextDefault)`
+    font-weight: bold;
     padding-left: 24px;
 `;
 
-export const TextDescription = styled.span`
-    font: normal normal normal 14px/16px PT Sans;
-    color: #555555;
+export const TextDescription = styled(TextDefault)`
 `;
 

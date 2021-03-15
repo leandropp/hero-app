@@ -26,7 +26,7 @@ export const Title = styled.p`
     text-align: left;
 
     @media screen and (max-width: 768px){
-        padding: 24px 0;
+        text-align: center;
     }
 
 `;

@@ -18,7 +18,7 @@ const ListCharacters: React.FC = () => {
 
     </HeaderList>
     <BodyList>
-      { characters.map( item => <CardCharacter character={item} />) }
+      { characters.map( item => <CardCharacter key={String(item.id)} character={item} />) }
     </BodyList>
     </>
   );

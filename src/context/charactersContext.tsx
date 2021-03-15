@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { getCharacterById, getCharactersMarvel } from '../services/marvelApi/marvinApi';
+import { getCharactersMarvel } from '../services/marvelApi/marvinApi';
 import { ICharacter, ISearchParams } from '../services/marvelApi/types';
 import { ICharacterContext, ICharacterProps, IPagination, ISearchMarvel } from './types';
 
@@ -26,8 +26,6 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   const [searchName, setSearchName] = useState<string>('');
   
   const [showModalDetails, setShowModalDetails] = useState<boolean>(false);
-  const [showCharactersFilters, setShowCharactersFilters] = useState<boolean>(false);
-
 
   const getCharacters = (searchParams: ISearchMarvel) => {
     const { page, name } = searchParams;
@@ -36,7 +34,7 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
     const request: ISearchParams = {
       limit: 4,
       offset,
-      nameStartsWith: name,
+      nameStartsWith: name || searchName,
     };
 
     getCharactersMarvel(request).then((response) => {
@@ -87,26 +85,11 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
     setShowModalDetails(!!characterId);
   } 
 
-  const getDetailsCharacter = async () => {
-    if (!characterSelected) return null;
-    try {
-      const response = await getCharacterById(characterSelected.id);
-
-      if (!response) return null;
-
-      return response.data;
-
-    } catch {
-      return null;
-    }
-  }
-
   return (<Provider value={{
     characters,
     pagination,
     searchName,
     showModalDetails,
-    showCharactersFilters,
     characterSelected,
 
     updatePage,

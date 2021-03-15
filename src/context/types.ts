@@ -12,7 +12,6 @@ export interface ICharacterContext {
     pagination: IPagination;
     searchName: string;
     showModalDetails: boolean;
-    showCharactersFilters: boolean;
 
     updatePage(page: number): void;
     searchCharactersByName(search: ISearchMarvel): void;

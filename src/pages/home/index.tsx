@@ -8,28 +8,25 @@ import ListCharacters from '../../components/listCharacters';
 import { Body } from './styles';
 import { CharactersProvider } from '../../context/charactersContext';
 import Details from '../../components/details';
-import CharactersFilter from '../../components/charactersFilter';
 
 const Home: React.FC = () => {
     const user = 'Leandro Pereira da Paixão';
 
     return (
-    <>
-        <Toolbar user={user}/>
+        <>
+            <Toolbar user={user} />
 
-        <CharactersProvider>
-            <CharactersFilter>
+            <CharactersProvider>
                 <Body>
                     <SearchCharacters />
                     <ListCharacters />
                 </Body>
                 <Footer />
-            </CharactersFilter>
 
-            <Details />
-        </CharactersProvider>
+                <Details />
+            </CharactersProvider>
 
-    </>
+        </>
     );
 };
 
