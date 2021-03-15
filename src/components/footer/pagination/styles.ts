@@ -29,9 +29,15 @@ export const Arrow = styled.div`
 `;
 
 export const ArrowBackContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const ArrowGoContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const ArrowBack = styled(ArrowLeft)``;

@@ -24,37 +24,38 @@ const Pagination: React.FC = () => {
 
     const handleGo = () => updatePage(currentPage + 1);
 
-    const handleLast = () => updatePage(totalPages/4);
+    const handleLast = () => updatePage(totalPages);
 
     const updateRangePages = () => {
-        const pages = [];
+        if (rangePages.includes(currentPage)) return;
 
-        const lastPage = Math.trunc(totalPages/4);
+        const pages = [];
 
         const pageInitial = (rangePages[rangePages.length - 1] < currentPage)
             ? currentPage - 4
             : currentPage;
-        
-        if (lastPage < 5 ) {
 
-            for(let i=0; i < lastPage; i++) pages.push(Math.trunc(pageInitial + i));
+        if (totalPages < 5 ) {
+            for(let i=0; i < totalPages; i++) pages.push(pageInitial + i);
         } else {
-            for(let i=0; i < 5; i++) pages.push(Math.trunc(pageInitial + i));
+            for(let i=0; i < 5; i++) pages.push(pageInitial + i);
         }
-
         setRangePages(pages)            
     }
 
     const handleChangePagination = () => {
-        setShowBack(currentPage > 1);
-        setShowFirst(currentPage > 1);
-        setShowGo(currentPage < totalPages);
-        setShowLast(currentPage < (totalPages -1));
-
-
-        if (!rangePages.includes(currentPage)) {
-            updateRangePages();
+        if(totalPages > 4) {
+            setShowFirst(currentPage > 1);
+            setShowBack(currentPage > 1);
+            setShowGo(currentPage < (totalPages - 1));
+            setShowLast(currentPage < (totalPages - 1));
+        } else {
+            setShowFirst(false);
+            setShowBack(false);
+            setShowGo(false);
+            setShowLast(false);
         }
+
     };
 
     useEffect(handleChangePagination, [currentPage]);

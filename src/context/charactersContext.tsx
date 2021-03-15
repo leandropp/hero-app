@@ -11,7 +11,6 @@ const { Provider } = CharacterStore;
 
 export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX.Element => {
 
-
   const initialPagination: IPagination = {
     currentPage: 0,
     offset: 0,
@@ -29,11 +28,11 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
   const [showModalDetails, setShowModalDetails] = useState<boolean>(false);
   const [showCharactersFilters, setShowCharactersFilters] = useState<boolean>(false);
 
+
   const getCharacters = (searchParams: ISearchMarvel) => {
     const { page, name } = searchParams;
 
     const offset = page ? (page * 4) - 4 : 0;
-
     const request: ISearchParams = {
       limit: 4,
       offset,
@@ -45,12 +44,16 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
       if (!data) return;
       
       const { results, offset, limit, total } = data;
+
+      const pages = Math.floor(total/4);
+      const totalPages = pages === total*4 ? pages : pages + 1;
+
       const newCharacters = results;
       const newPagination:IPagination = {
         ...pagination,
         offset,
         limit,
-        totalPages: total + 1,
+        totalPages,
         currentPage: page || 1,
       }
 
@@ -58,21 +61,20 @@ export const CharactersProvider: React.FC<ICharacterProps> = ({ children }): JSX
       setPagination({...newPagination});
   })
   .catch(() => { })
-
   }
 
   useEffect(() => getCharacters({}), []);
 
-  useEffect(() => setShowCharactersFilters(!showModalDetails), [ showModalDetails ]);
 
   const updatePage = (page: number) => getCharacters({ page });
 
   const searchCharactersByName = (search: ISearchMarvel) => {
-    const { page, name } = search;
+    const { name } = search;
     
-    setSearchName(name || '');
-
-      getCharacters({ page, name });
+    if (!!name) {
+      setSearchName(name);
+     getCharacters({ page: 1, name });
+    }
   };
 
   const handleChangeSearchName = (name: string) => setSearchName(name);
